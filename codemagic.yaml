@@ -10,14 +10,12 @@ workflows:
         APP_NAME: "sixam_mart"
         BUNDLE_ID: "com.jolouser.app"
     scripts:
-      - name: Change directory to Flutter project
-        script: cd User_apps  # 👈 Replace with the correct folder name
       - name: Install dependencies
         script: flutter pub get
       - name: Build .ipa for release
         script: flutter build ipa --release
     artifacts:
-      - User_apps/build/ios/ipa/*.ipa
+      - build/ios/ipa/*.ipa
     publishing:
       email:
         recipients:
