@@ -5,23 +5,41 @@ workflows:
       vars:
         BUNDLE_ID: "com.jolo_use.apps"
         APP_STORE_CONNECT_TEAM_ID: "ZBGNBJ5RX2"
+      xcode: latest
+      flutter: stable
+      cocoapods: default
+      groups:
+        - app_store_credentials # This group must include your App Store Connect API key
+        - certificates          # This group should have your signing certificate/profiles
     scripts:
       - name: Install dependencies
         script: flutter pub get
 
-      - name: Build iOS (with automatic signing)
+      - name: Build iOS (Flutter side only)
         script: |
           flutter build ios --release --no-codesign
 
-      - name: Build .ipa for release
+      - name: Archive iOS app with automatic signing
         script: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath build/ios/archive/Runner.xcarchive
+          xcodebuild -workspace ios/Runner.xcworkspace \
+            -scheme Runner \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath build/ios/archive/Runner.xcarchive \
+            -allowProvisioningUpdates \
+            archive
+
+      - name: Export .ipa from archive
+        script: |
+          xcodebuild -exportArchive \
+            -archivePath build/ios/archive/Runner.xcarchive \
+            -exportOptionsPlist ios/exportOptions.plist \
+            -exportPath build/ios/ipa
 
     artifacts:
-      - build/ios/archive/*.ipa
+      - build/ios/ipa/*.ipa
 
     publishing:
       email:
         recipients:
           - madigitals2020@gmail.com
-
