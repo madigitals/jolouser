@@ -6,35 +6,35 @@ workflows:
         BUNDLE_ID: "com.jolo_use.apps"
         APP_STORE_CONNECT_TEAM_ID: "ZBGNBJ5RX2"
       xcode: latest
-      flutter: stable
       cocoapods: default
+      flutter: stable
       groups:
-        - app_store_credentials # This group must include your App Store Connect API key
-        - certificates          # This group should have your signing certificate/profiles
+        - app_store_credentials
     scripts:
-      - name: Install dependencies
-        script: flutter pub get
+      - name: Install Flutter dependencies
+        script: |
+          flutter pub get
 
-      - name: Build iOS (Flutter side only)
+      - name: Flutter build (no codesign)
         script: |
           flutter build ios --release --no-codesign
 
-- name: Archive iOS app with automatic signing
-  script: |
-    xcodebuild -workspace ios/Runner.xcworkspace \
-      -scheme Runner \
-      -sdk iphoneos \
-      -configuration Release \
-      -archivePath build/ios/archive/Runner.xcarchive \
-      -allowProvisioningUpdates \
-      archive
-
+      - name: Archive iOS app with automatic signing
+        script: |
+          xcodebuild -workspace ios/Runner.xcworkspace \
+            -scheme Runner \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath build/ios/archive/Runner.xcarchive \
+            -allowProvisioningUpdates \
+            archive
 
       - name: Export .ipa from archive
         script: |
           xcodebuild -exportArchive \
             -archivePath build/ios/archive/Runner.xcarchive \
             -exportOptionsPlist ios/exportOptions.plist \
+            -allowProvisioningUpdates \
             -exportPath build/ios/ipa
 
     artifacts:
