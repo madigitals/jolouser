@@ -21,10 +21,3 @@ workflows:
         recipients:
           - madigitals2020@gmail.com
 
-    signing:
-      use_apple_signing: true
-      apple_team_id: ZBGNBJ5RX2
-      app_identifier: com.jolouser.app
-      api_key_id: 776A9SJ4VX
-      issuer_id: 40708fde-4d93-4c2a-bd84-4f08bab1a01f
-      api_key_path: secure://api_key.p8
