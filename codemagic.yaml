@@ -3,7 +3,7 @@ workflows:
     name: Build iOS Release
     environment:
       vars:
-        BUNDLE_ID: "com.jolouser.app"
+        BUNDLE_ID: "com.jolo_use.apps"
         APP_STORE_CONNECT_TEAM_ID: "ZBGNBJ5RX2"
     scripts:
       - name: Install dependencies
