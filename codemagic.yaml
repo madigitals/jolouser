@@ -19,15 +19,16 @@ workflows:
         script: |
           flutter build ios --release --no-codesign
 
-      - name: Archive iOS app with automatic signing
-        script: |
-          xcodebuild -workspace ios/Runner.xcworkspace \
-            -scheme Runner \
-            -sdk iphoneos \
-            -configuration Release \
-            -archivePath build/ios/archive/Runner.xcarchive \
-            -allowProvisioningUpdates \
-            archive
+- name: Archive iOS app with automatic signing
+  script: |
+    xcodebuild -workspace ios/Runner.xcworkspace \
+      -scheme Runner \
+      -sdk iphoneos \
+      -configuration Release \
+      -archivePath build/ios/archive/Runner.xcarchive \
+      -allowProvisioningUpdates \
+      archive
+
 
       - name: Export .ipa from archive
         script: |
