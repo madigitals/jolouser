@@ -3,7 +3,7 @@ workflows:
     name: Build iOS Release
     environment:
       vars:
-        BUNDLE_ID: "com.jolo_use.apps"
+        BUNDLE_ID: "com.jolouser.app"
         APP_STORE_CONNECT_TEAM_ID: "ZBGNBJ5RX2"
       xcode: latest
       cocoapods: default
